@@ -10,8 +10,6 @@ RUN python3 -m pip install --upgrade pwntools
 RUN adduser $user
 
 ADD ./Stage0_Debug_Me/. /home/$user/Stage0_Debug_Me/
-ADD ./Stage1_Greedy/. /home/$user/Stage1_Greedy/
-ADD ./Stage2_Innocent_sheep/. /home/$user/Stage2_Innocent_sheep/
 
 WORKDIR /home/$user/
 
