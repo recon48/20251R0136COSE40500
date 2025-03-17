@@ -15,8 +15,6 @@ WORKDIR /home/$user/
 
 RUN chmod 770 /home/$user/
 RUN chmod 770 /home/$user//
-RUN chmod 770 /home/$user//.o
-RUN chmod 660 /home/$user//*.c
 
 RUN chown -R $user:$user /home/$user/*
 
