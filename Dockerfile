@@ -10,11 +10,16 @@ RUN python3 -m pip install --upgrade pwntools
 RUN adduser $user
 
 ADD ./Stage0_Debug_Me/. /home/$user/Stage0_Debug_Me/
+ADD ./Class/. /home/$user/Class/
 
 WORKDIR /home/$user/
 
 RUN chmod 770 /home/$user/
-RUN chmod 770 /home/$user//
+RUN chmod 770 /home/$user/*/
+RUN chmod 770 /home/$user/*/*.o  
+RUN chmod 770 /home/$user/*/*.py  
+RUN chmod 660 /home/$user/*/*.c  
+
 
 RUN chmod +x /home/$user/Stage0_Debug_Me/*  
 
