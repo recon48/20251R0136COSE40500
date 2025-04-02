@@ -187,8 +187,8 @@ int main() {
   Student student;
   int totalBooks = 0;
   
-  setvbuf(stdout, NULL, _IONBF, 0);
-  setvbuf(stdin, NULL, _IONBF, 0);
+  setvbuf(stdout, NULL, _IONBF, 0); // Do not change this code; for remote connection
+  setvbuf(stdin, NULL, _IONBF, 0);  // Do not change this code; for remote connection
   
   initializeData(books, &student, &totalBooks);
   epilogue(books, &student, totalBooks);

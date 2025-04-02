@@ -79,8 +79,8 @@ void epilogue() {
 }
 
 int main() {
-  setvbuf(stdout, NULL, _IONBF, 0);
-  setvbuf(stdin, NULL, _IONBF, 0);
+  setvbuf(stdout, NULL, _IONBF, 0); // Do not change this code; for remote connection
+  setvbuf(stdin, NULL, _IONBF, 0);  // Do not change this code; for remote connection
   epilogue();
   Student seogyeong = {"seogyeong", 20230002, 'N'};
   Student youngjae = {"youngjae", 20230001, 'Y'};
