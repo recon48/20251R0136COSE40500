@@ -22,13 +22,16 @@ RUN chmod 770 /home/$user/*/*.o
 RUN chmod 770 /home/$user/*/*.py
 RUN chmod 770 /home/$user/Stage1_Greedy/*.c
 RUN chmod 770 /home/$user/Stage2_Innocent_sheep/*.c   
+RUN chmod 770 /home/$user/Stage3_Leaked_Simulator/*.c
+RUN chmod 770 /home/$user/Stage4_Forbidden_Archive/*.c   
 RUN chmod 660 /home/$user/*/*.c  
 
 
 RUN chmod +x /home/$user/Stage0_Debug_Me/*
 RUN chmod +x /home/$user/Stage1_Greedy/* 
 RUN chmod +x /home/$user/Stage2_Innocent_sheep/* 
-
+RUN chmod +x /home/$user/Stage3_Leaked_Simulator/* 
+RUN chmod +x /home/$user/Stage4_Forbidden_Archive/* 
 
 RUN chown -R $user:$user /home/$user/*
 
