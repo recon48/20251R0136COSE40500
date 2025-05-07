@@ -9,6 +9,8 @@ RUN python3 -m pip install --upgrade pwntools
 
 RUN adduser $user
 
+ADD ./Stage3_Leaked_Simulator/. /home/$user/Stage3_Leaked_Simulator/
+ADD ./Stage4_Forbidden_Archive/. /home/$user/Stage4_Forbidden_Archive/
 ADD ./Stage2_Innocent_sheep/. /home/$user/Stage2_Innocent_sheep/
 ADD ./Stage1_Greedy/. /home/$user/Stage1_Greedy/
 ADD ./Stage0_Debug_Me/. /home/$user/Stage0_Debug_Me/
