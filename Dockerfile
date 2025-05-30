@@ -3,7 +3,8 @@ FROM ubuntu:22.04
 ENV user cose-451
 
 RUN apt-get update
-RUN apt-get -y install gcc gdb gcc-multilib git vim python3-pip gdbserver netcat autoconf automake libtool hexedit
+RUN apt-get -y install gcc gdb gcc-multilib git vim python3-pip gdbserver netcat
+RUN apt-get -y install autoconf automake libtool hexedit
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install --upgrade pwntools
 
