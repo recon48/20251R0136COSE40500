@@ -13,7 +13,8 @@
 #define MAX_MAJOR_LEN 40
 #define MAX_THREADS 5
 
-typedef struct {
+typedef struct
+{
     int id;
     int is_waiting;
     char major[MAX_MAJOR_LEN];
@@ -21,23 +22,27 @@ typedef struct {
     char book[MAX_BOOK_LEN];
 } User;
 
-typedef struct {
-    User users[MAX_QUEUE_SIZE+1];
+typedef struct
+{
+    User users[MAX_QUEUE_SIZE + 1];
     int size;
 } Queue;
 
 Queue waitingQueue;
 
-void initQueue() {
+void initQueue()
+{
     memset(&waitingQueue, 0, sizeof(Queue));
     waitingQueue.size = 0;
 }
 
-void process() {
+void process()
+{
     usleep(50000);
 }
 
-User registerUser() {
+User registerUser()
+{
     User newUser = {107, 0, "CS", "", ""};
 
     printf("\n\n===== Sign up =====\n");
@@ -45,33 +50,41 @@ User registerUser() {
     read(0, newUser.name, MAX_NAME_LEN);
     printf("Book title to borrow: ");
     read(0, newUser.book, MAX_BOOK_LEN);
-    
+
     return newUser;
 }
 
-void *displayQueue() {
+void *displayQueue()
+{
     process();
     printf("\n\n===== Current Waiting Users =====\n");
-    if (waitingQueue.size == 0) {
+    if (waitingQueue.size == 0)
+    {
         printf("\n[!] No users currently waiting.\n\n");
-    } else {
+    }
+    else
+    {
         printf("Waiting Users: [%d]\n", waitingQueue.size);
-        for (int i = 0; i < waitingQueue.size; i++) {
-            printf(" - ID: %d, Name: %s, Major: %s, Book: %s\n", 
-                    waitingQueue.users[i].id, waitingQueue.users[i].name, 
-                    waitingQueue.users[i].major, waitingQueue.users[i].book);
+        for (int i = 0; i < waitingQueue.size; i++)
+        {
+            printf(" - ID: %d, Name: %s, Major: %s, Book: %s\n",
+                   waitingQueue.users[i].id, waitingQueue.users[i].name,
+                   waitingQueue.users[i].major, waitingQueue.users[i].book);
         }
     }
     printf("===================================\n");
 }
 
-void *enqueue(void *arg) {
+void *enqueue(void *arg)
+{
     User *user = (User *)arg;
-    if (user->is_waiting == 1) {
+    if (user->is_waiting == 1)
+    {
         return NULL;
     }
-    
-    if (waitingQueue.size < MAX_QUEUE_SIZE) {
+
+    if (waitingQueue.size < MAX_QUEUE_SIZE)
+    {
         process();
         strcpy(waitingQueue.users[waitingQueue.size].major, user->major);
         strcpy(waitingQueue.users[waitingQueue.size].name, user->name);
@@ -83,46 +96,56 @@ void *enqueue(void *arg) {
     return NULL;
 }
 
-void *removeFromQueue(void *arg) {
+void *removeFromQueue(void *arg)
+{
     User *user = (User *)arg;
     int found = -1;
-    for (int i = 0; i < waitingQueue.size; i++) {
-        if (waitingQueue.users[i].id == user->id) {
+    for (int i = 0; i < waitingQueue.size; i++)
+    {
+        if (waitingQueue.users[i].id == user->id)
+        {
             found = i;
             break;
         }
     }
 
-    if (found != -1 && user->is_waiting == 1) {
+    if (found != -1 && user->is_waiting == 1)
+    {
         process();
         user->is_waiting = 0;
-        for (int i = found; i < waitingQueue.size - 1; i++) {
+        for (int i = found; i < waitingQueue.size - 1; i++)
+        {
             strcpy(waitingQueue.users[i].major, waitingQueue.users[i + 1].major);
             strcpy(waitingQueue.users[i].name, waitingQueue.users[i + 1].name);
             strcpy(waitingQueue.users[i].book, waitingQueue.users[i + 1].book);
             waitingQueue.users[i].id = waitingQueue.users[i + 1].id;
         }
-        
+
         waitingQueue.size--;
     }
     return NULL;
 }
 
-void *borrowBook(void *arg) {
+void *borrowBook(void *arg)
+{
     User *user = (User *)arg;
     process();
-    if (waitingQueue.users[0].id == user->id && 
-            strcmp(waitingQueue.users[0].major, "Literature") == 0) {
+    if (waitingQueue.users[0].id == user->id &&
+        strcmp(waitingQueue.users[0].major, "Literature") == 0)
+    {
         removeFromQueue(user);
         printf("%s borrowed '%s'.\n", user->name, user->book);
         system("/bin/cat flag.txt");
-    } else {
+    }
+    else
+    {
         printf("\n[!] Cannot borrow.\n\n");
     }
     return NULL;
 }
 
-void display_menu() {
+void display_menu()
+{
     printf("\n\n===== Book Rental Program =====\n");
     printf("\nPlease select an operation:\n");
     printf("1. View waiting list\n");
@@ -133,7 +156,8 @@ void display_menu() {
     printf("Choice: ");
 }
 
-void prologue(){
+void prologue()
+{
     printf("-------------------------------------------------------------------\n");
     printf("                    FORBIDDEN ARCHIVE ACCESS SYSTEM v2.0           \n");
     printf("-------------------------------------------------------------------\n");
@@ -146,19 +170,18 @@ void prologue(){
     printf("-------------------------------------------------------------------\n\n");
 }
 
-
-
-int main() {
+int main()
+{
     setvbuf(stdin, NULL, _IONBF, 0);
     setvbuf(stdout, NULL, _IONBF, 0);
 
     prologue();
-    
+
     initQueue();
 
     User user1 = {101, 0, "Literature", "Jururu", "Demian"};
     User user2 = {102, 0, "Literature", "Gosegu", "Ficciones"};
-    User user3 = {103, 0, "Literature", "JingBurger", "The Unbearable Lightness of Being"}; 
+    User user3 = {103, 0, "Literature", "JingBurger", "The Unbearable Lightness of Being"};
     User user4 = {104, 0, "Literature", "Lilpa", "The Moon and Sixpence"};
     User user5 = {105, 0, "Literature", "Viichan", "Do Androids dream of electric sheep?"};
     User user6 = {106, 0, "Literature", "Ine", "Norwegian Wood"};
@@ -171,49 +194,54 @@ int main() {
     enqueue(&user6);
 
     printf("=== Welcome to the Book Rental Program! ===\n");
-    
+
     displayQueue();
 
     User user7 = registerUser();
-    
+
     int choice = 0;
     pthread_t threads[MAX_THREADS];
     int thread_count = 0;
-    
-    while (1) {
-        if (thread_count >= MAX_THREADS) {
+
+    while (1)
+    {
+        if (thread_count >= MAX_THREADS)
+        {
             printf("Too many operations! Please wait for some to complete.\n");
-            for (int i = 0; i < thread_count; i++) {
+            for (int i = 0; i < thread_count; i++)
+            {
                 pthread_join(threads[i], NULL);
             }
             thread_count = 0;
         }
         display_menu();
         scanf("%d", &choice);
-        
-        switch (choice) {
-            case 1:
-                pthread_create(&threads[thread_count++], NULL, &displayQueue, NULL);
-                break;
-            case 2:
-                pthread_create(&threads[thread_count++], NULL, &enqueue, &user7);
-                break;
-            case 3:
-                pthread_create(&threads[thread_count++], NULL, &removeFromQueue, &user7);
-                break;
-            case 4:
-                pthread_create(&threads[thread_count++], NULL, &borrowBook, &user7);
-                break;
-            case 5:
-                for (int i = 0; i < thread_count; i++) {
-                    pthread_join(threads[i], NULL);
-                }
-                printf("Goodbye!\n");
-                return 0;
-            default:
-                printf("Invalid choice. Please try again.\n");
+
+        switch (choice)
+        {
+        case 1:
+            pthread_create(&threads[thread_count++], NULL, &displayQueue, NULL);
+            break;
+        case 2:
+            pthread_create(&threads[thread_count++], NULL, &enqueue, &user7);
+            break;
+        case 3:
+            pthread_create(&threads[thread_count++], NULL, &removeFromQueue, &user7);
+            break;
+        case 4:
+            pthread_create(&threads[thread_count++], NULL, &borrowBook, &user7);
+            break;
+        case 5:
+            for (int i = 0; i < thread_count; i++)
+            {
+                pthread_join(threads[i], NULL);
+            }
+            printf("Goodbye!\n");
+            return 0;
+        default:
+            printf("Invalid choice. Please try again.\n");
         }
     }
-    
+
     return 0;
 }
